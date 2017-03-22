@@ -24,7 +24,9 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 
@@ -45,7 +47,15 @@ import org.springframework.samples.petclinic.model.Person;
 @Entity
 @Table(name = "owners")
 public class Owner extends Person {
-    @Column(name = "address")
+    public Cuenta getCuenta() {
+		return cuenta;
+	}
+
+	public void setCuenta(Cuenta cuenta) {
+		this.cuenta = cuenta;
+	}
+
+	@Column(name = "address")
     @NotEmpty
     private String address;
 
@@ -60,9 +70,22 @@ public class Owner extends Person {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private Set<Pet> pets;
+    
+    @OneToOne(fetch=FetchType.LAZY)
+    private Cuenta cuenta;
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+//    private Set<Bill> bill;
+//
+//
+//    public Set<Bill> getBill() {
+//		return bill;
+//	}
+//
+//	public void setBill(Set<Bill> bill) {
+//		this.bill = bill;
+//	}
 
-
-    public String getAddress() {
+	public String getAddress() {
         return this.address;
     }
 
